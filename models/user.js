@@ -7,6 +7,6 @@ var userSchema = new mongoose.Schema({
   admin: Boolean
 });
 
-UserSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('User', userSchema);
