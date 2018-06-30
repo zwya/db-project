@@ -5,17 +5,25 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { routing } from './app.routing';
+import { UserFormComponent } from './user/user-form/user-form.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    UserListComponent,
+    UserFormComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]

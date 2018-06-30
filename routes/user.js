@@ -6,15 +6,37 @@ var User = require('../models/user');
 
 router.get('/', function(req, res, next){
   User.find({}).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
-    handleError(err);
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
     User.count({}, function(err, count) {
-      handleError(err);
+      if(err){
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
       const pageCount = Math.ceil(count / req.query.limit);
       res.status(201).json({
         has_more: paginate.hasNextPages(req)(pageCount),
         data: results
       });
     });
+  });
+});
+
+router.get('/:id', function(req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
+      res.status(201).json(user);
   });
 });
 
@@ -25,17 +47,27 @@ router.post('/', function(req, res, next){
     admin: req.body.admin
   });
   user.save(function(err, user){
-    handleError(err);
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
     res.status(201).json({
       message: 'Saved user',
-      obj: result
+      obj: user
     });
   });
 });
 
 router.patch('/:id', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
-    handleError(err);
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
     if(!user) {
       return res.status(500).json({
         title: 'No User Found',
@@ -46,7 +78,12 @@ router.patch('/:id', function(req, res, next) {
     user.password = req.body.password;
     user.admin = req.body.admin;
     user.save(function(err, user) {
-      handleError(err);
+      if(err){
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
       res.status(200).json({
         message: 'Updated user',
         obj: user
@@ -57,7 +94,12 @@ router.patch('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
-    handleError(err);
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
     if(!user) {
       return res.status(500).json({
         title: 'No User Found',
@@ -65,7 +107,12 @@ router.delete('/:id', function(req, res, next) {
       });
     }
     user.remove(function(err, result) {
-      handleError(err);
+      if(err){
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
       res.status(200).json({
         message: 'Deleted user',
         obj: result
@@ -73,14 +120,5 @@ router.delete('/:id', function(req, res, next) {
     });
   })
 });
-
-function handleError(err){
-  if(err){
-    return res.status(500).json({
-      title: 'An error occured',
-      error: err
-    });
-  }
-}
 
 module.exports = router;

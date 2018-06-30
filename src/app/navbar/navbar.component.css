@@ -6,3 +6,8 @@
   height: 64px;
   width: 128px;
 }
+
+.active {
+  background-color: rgba(232, 238, 239, 0.3);
+  border-radius: 25px;
+}

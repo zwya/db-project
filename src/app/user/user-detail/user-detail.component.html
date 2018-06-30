@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="offset-3 inputForm">
+    <p> Username: {{ user?.username }}</p>
+    <p> Password: {{ user?.password }}</p>
+    <p> Admin: {{ user?.admin }}</p>
+    <div class="row">
+      <button type="button" class="btn btn-primary" routerLink="/user/form/{{user?.id}}"> Edit </button>
+      <div class="offset-2">
+        <button type="button" class="btn btn-primary" (click)="deleteUser()"> Delete </button>
+      </div>
+      <div class="offset-2">
+        <button type="button" class="btn btn-primary" routerLink="/user"> Back </button>
+      </div>
+    </div>
+  </div>
+</div>
