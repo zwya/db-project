@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.0.0",
+    "@angular/cdk": "^6.0.0",
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
     "@angular/core": "^6.0.0",
@@ -26,11 +27,11 @@
     "express": "^4.16.3",
     "http-errors": "^1.6.3",
     "mongoose": "^5.1.1",
+    "mongoose-unique-validator": "^2.0.1",
     "morgan": "^1.9.0",
     "rxjs": "^6.0.0",
     "serve-favicon": "^2.5.0",
-    "zone.js": "^0.8.26",
-    "@angular/cdk": "^6.0.0"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.1",
