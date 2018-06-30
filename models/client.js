@@ -11,9 +11,10 @@ var clientSchema = new mongoose.Schema({
   subcategory: [{
     type: String
   }],
-  mobile: {type: String},
-  phone: {type: String},
-  fax: {type: String}
+  mobile: String,
+  phone: String,
+  fax: String,
+  core: Boolean
 });
 
 clientSchema.plugin(uniqueValidator);
