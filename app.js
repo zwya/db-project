@@ -9,8 +9,6 @@ mongoose.connect('mongodb://localhost/mean-angular6')
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
-var apiRouter = require('./routes/book');
-
 var app = express();
 
 app.use(logger('dev'));
@@ -18,7 +16,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
-app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
