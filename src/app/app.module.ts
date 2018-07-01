@@ -12,6 +12,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { ClientListComponent } from './client/client-list/client-list.component';
 import { ClientFormComponent } from './client/client-form/client-form.component';
 import { ClientDetailComponent } from './client/client-detail/client-detail.component';
+import { EventComponent } from './event/event/event.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ClientDetailComponent } from './client/client-detail/client-detail.comp
     UserDetailComponent,
     ClientListComponent,
     ClientFormComponent,
-    ClientDetailComponent
+    ClientDetailComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,

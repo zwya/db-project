@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var paginate = require('express-paginate');
+var json2csv = require('json2csv').parse;
+var fs = require('fs');
 
 var Client = require('../models/client');
 
@@ -31,6 +33,42 @@ router.get('/', function(req, res, next){
         data: results
       });
     });
+  });
+});
+
+router.get('/csv', function(req, res ,next) {
+  var clients = [];
+  Client.find({category: req.query.category, subcategory: [req.query.subcategory]}, function(err, clientsres){
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
+    clients = clientsres;
+    if(req.query.core){
+      Client.find({core: true}, function(err, clientsres) {
+        if(err){
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        clients.push(...clientsres);
+        const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core'];
+        var csv;
+        try{
+          csv = json2csv(clients, { fields });
+        }
+        catch(err){
+          console.log(err);
+        }
+        var path = Date.now() + '.csv';
+        res.status(200).json({
+          file: csv
+        });
+      });
+    }
   });
 });
 
