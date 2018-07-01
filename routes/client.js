@@ -51,7 +51,27 @@ router.get('/', function(req, res, next){
 
 router.get('/csv', function(req, res ,next) {
   var clients = [];
-  Client.find({category: req.query.category, subcategory: [req.query.subcategory]}, function(err, clientsres){
+  Client.find().or([{category: req.query.category, subcategory: [req.query.subcategory]}, {core: true}]).exec(function(err, clients){
+      if(err){
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core'];
+      var csv;
+      try{
+        csv = json2csv(clients, { fields });
+      }
+      catch(err){
+        console.log(err);
+      }
+      var path = Date.now() + '.csv';
+      res.status(200).json({
+        file: csv
+      });
+  });
+  /*Client.find({category: req.query.category, subcategory: [req.query.subcategory]}, function(err, clientsres){
     if(err){
       return res.status(500).json({
         title: 'An error occured',
@@ -59,7 +79,6 @@ router.get('/csv', function(req, res ,next) {
       });
     }
     clients = clientsres;
-    console.log(clients);
     if(req.query.core){
       Client.find({core: true}, function(err, clientsres) {
         if(err){
@@ -68,7 +87,12 @@ router.get('/csv', function(req, res ,next) {
             error: err
           });
         }
-        clients.push(...clientsres);
+        clientsres.forEach(function(element) {
+          console.log(element);
+          if(clients.indexOf(element) == -1) {
+            clients.push(element);
+          }
+        });
         const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core'];
         var csv;
         try{
@@ -83,7 +107,7 @@ router.get('/csv', function(req, res ,next) {
         });
       });
     }
-  });
+  });*/
 });
 
 router.get('/:id', function(req, res, next) {
@@ -150,6 +174,7 @@ router.patch('/:id', function(req, res, next) {
     client.mobile = req.body.mobile;
     client.phone = req.body.phone;
     client.fax = req.body.fax;
+    client.core = req.body.core;
     client.save(function(err, client) {
       if(err){
         return res.status(500).json({
