@@ -7,7 +7,7 @@ var clientSchema = new mongoose.Schema({
   job_title: {type: String, required: true},
   organization: {type: String, required: true},
   email: {type: String, required: true, unique: true},
-  category: {type: String, required: true}
+  category: {type: String, required: true},
   subcategory: [{
     type: String
   }],

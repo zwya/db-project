@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="offset-3 inputForm">
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="inputTitle">Title</label>
+      <input type="text" class="form-control" id="inputTitle" aria-describedby="emailHelp" placeholder="Enter title" formControlName = "title">
+    </div>
+    <div *ngIf="createForm.controls.title.invalid && (createForm.controls.title.touched || createForm.controls.title.dirty) && createForm.controls.title.errors?.required"
+      class="text-danger">
+      Title field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputName">Name</label>
+      <input type="text" class="form-control" id="inputName" placeholder="Enter name" formControlName = "name">
+    </div>
+    <div *ngIf="createForm.controls.name.invalid && (createForm.controls.name.touched || createForm.controls.name.dirty) && createForm.controls.name.errors?.required"
+      class="text-danger">
+      Name field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputJobTitle">Job Title</label>
+      <input type="text" class="form-control" id="inputJobTitle" placeholder="Enter job title" formControlName = "jobtitle">
+    </div>
+    <div *ngIf="createForm.controls.jobtitle.invalid && (createForm.controls.jobtitle.touched || createForm.controls.jobtitle.dirty) && createForm.controls.jobtitle.errors?.required"
+      class="text-danger">
+      Job title field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputOrganization">Organization</label>
+      <input type="text" class="form-control" id="inputOrganization" placeholder="Enter organization" formControlName = "organization">
+    </div>
+    <div *ngIf="createForm.controls.organization.invalid && (createForm.controls.organization.touched || createForm.controls.organization.dirty) && createForm.controls.organization.errors?.required"
+      class="text-danger">
+      Organization field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputEmail">Email</label>
+      <input type="text" class="form-control" id="inputEmail" placeholder="Enter email" formControlName = "email">
+    </div>
+    <div *ngIf="createForm.controls.email.invalid && (createForm.controls.email.touched || createForm.controls.email.dirty) && createForm.controls.email.errors?.required"
+      class="text-danger">
+      Email field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputCategory">Category</label>
+      <input type="text" class="form-control" id="inputCategory" placeholder="Enter category" formControlName = "category">
+    </div>
+    <div *ngIf="createForm.controls.category.invalid && (createForm.controls.category.touched || createForm.controls.category.dirty) && createForm.controls.category.errors?.required"
+      class="text-danger">
+      Category field can't be blank
+    </div>
+    <div class="form-group">
+      <label for="inputSubCategory">Sub Category</label>
+      <input type="text" class="form-control" id="inputSubCategory" placeholder="Enter subcategory" formControlName = "subcategory">
+      <button type="button" class="btn btn-primary" (click)="addSubCategory()"> Add </button>
+    </div>
+    <ul>
+      <li *ngFor="let subcategory of subCategories; let i = index"> {{ subcategory }} <button type="button" class="btn btn-primary" (click)="removeSubCategory(i)"> X </button> </li>
+    </ul>
+    <div class="form-group">
+      <label for="inputMobile">Mobile</label>
+      <input type="text" class="form-control" id="inputMobile" placeholder="Enter mobile" formControlName = "mobile">
+    </div>
+    <div class="form-group">
+      <label for="inputPhone">Phone</label>
+      <input type="text" class="form-control" id="inputPhone" placeholder="Enter phone" formControlName = "phone">
+    </div>
+    <div class="form-group">
+      <label for="inputFax">Fax</label>
+      <input type="text" class="form-control" id="inputFax" placeholder="Enter fax" formControlName = "fax">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="inputCore" formControlName = "core">
+      <label class="form-check-label" for="inputCore">Core</label>
+    </div>
+    <div class="row">
+      <div class="offset-1">
+      <button type="submit" class="btn btn-primary" [disabled] = "!createForm.valid" *ngIf="!editMode">Submit</button>
+      <button type="submit" class="btn btn-primary" [disabled] = "!createForm.valid" *ngIf="editMode">Edit</button>
+      </div>
+      <div class="offset-5">
+        <button type="button" class="btn btn-primary" routerLink="/client">Back</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>

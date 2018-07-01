@@ -32,9 +32,9 @@ export class UserService {
       }
       // return an observable with a user-facing error message
       return throwError('Something bad happened; please try again later.');
-    };
+    }
 
-  private extractBooksData(res: Response) {
+  private extractUserData(res: Response) {
     var body = res;
     let frontEndUser: User[] = [];
     for(let user of body['data']) {
@@ -47,7 +47,7 @@ export class UserService {
   getUsers(pageNumber: number, limit: number): Observable<any> {
     if(pageNumber) {
       return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit, httpOptions).pipe(
-        map(this.extractBooksData),
+        map(this.extractUserData),
         catchError(this.handleError)
       );
     }

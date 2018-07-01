@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="offset-3 inputForm">
+    <p> Name: {{ client?.name }}</p>
+    <p> Title: {{ client?.title }}</p>
+    <p> Job Title: {{ client?.job_title }}</p>
+    <p> Organization: {{ client?.organization }}</p>
+    <p> Email: {{ client?.email }}</p>
+    <p> Category: {{ client?.category }}</p>
+    <p> Subcategory: </p>
+    <ul>
+      <li *ngFor="let subcategory of client?.subcategory"> {{ subcategory }} </li>
+    </ul>
+    <p> Mobile: {{ client?.mobile }}</p>
+    <p> Phone: {{ client?.phone }}</p>
+    <p> Fax: {{ client?.fax }}</p>
+    <p> Core: {{ client?.core }}</p>
+
+    <div class="row">
+      <button type="button" class="btn btn-primary" routerLink="/client/form/{{client?.id}}"> Edit </button>
+      <div class="offset-2">
+        <button type="button" class="btn btn-primary" (click)="deleteClient()"> Delete </button>
+      </div>
+      <div class="offset-2">
+        <button type="button" class="btn btn-primary" routerLink="/client"> Back </button>
+      </div>
+    </div>
+  </div>
+</div>

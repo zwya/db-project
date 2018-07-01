@@ -27,7 +27,7 @@ export class UserFormComponent implements OnInit {
         Validators.required,
         this.whiteSpaceValidator
       ]),
-      admin: new FormControl(false);
+      admin: new FormControl(false)
     });
     this.route.params.subscribe(
       params => {

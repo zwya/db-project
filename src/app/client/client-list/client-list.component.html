@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="row">
+      <div class="col offset">
+        <input type="text" class="form-control" placeholder="Enter search query" id="inputSearch" (keypress)="searchClients($event)" [(ngModel)]="searchQuery">
+      </div>
+      <div class="col">
+      <select class="form-control" id="seachField" [(ngModel)]="searchField">
+        <option value="name" selected>Name</option>
+        <option value="title">Title</option>
+        <option value="job_title">Job Title</option>
+        <option value="organization">Organization</option>
+        <option value="email">Email</option>
+        <option value="category">Category</option>
+        <option value="subcategory">Subcategory</option>
+        <option value="mobile">Mobile</option>
+        <option value="phone">Phone</option>
+        <option value="fax">Fax</option>
+        <option value="core">Core</option>
+      </select>
+    </div>
+    </div>
+  <div class="below-search">
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Name</th>
+        <th scope="col">Job Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients; let i = index"  (mouseenter)="setIndex(hoverIndex = i)" (mouseleave)="clearIndex()" [ngClass]="{'selected-element': hoverIndex == i}" (click)="goToDetails()">
+        <th scope="col">{{ i + 1 }}</th>
+        <th scope="col">{{ client.title }}</th>
+        <th scope="col">{{ client.name }}</th>
+        <th scope="col">{{ client.job_title }}</th>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary offset-4" [disabled]="pageNumber == 1" (click)="previousPage()"> << </button>
+  <button type="button" class="btn offset-1" [routerLink]="['form']"> Add Client </button>
+  <button type="button" class="btn btn-primary offset-1" [disabled]="!hasMorePages" (click)="nextPage()"> >> </button>
+</div>
