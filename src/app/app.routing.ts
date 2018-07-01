@@ -7,18 +7,23 @@ import { ClientListComponent } from "./client/client-list/client-list.component"
 import { ClientFormComponent } from "./client/client-form/client-form.component";
 import { ClientDetailComponent } from "./client/client-detail/client-detail.component";
 import { EventComponent } from "./event/event/event.component";
+import { SigninComponent } from "./auth/signin/signin.component";
+import { LoggedinGuard } from './guards/loggedin.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { DefaultpageGuard } from './guards/defaultpage.guard';
 
 const APP_ROUTES: Routes = [
-  { path: '', redirectTo: '/user', pathMatch: 'full' },
-  { path: 'user', component: UserListComponent },
-  { path: 'user/form', component: UserFormComponent },
-  { path: 'user/details/:id', component: UserDetailComponent },
-  { path: 'user/form/:id', component: UserFormComponent },
-  { path: 'client', component: ClientListComponent },
-  { path: 'client/form', component: ClientFormComponent },
-  { path: 'client/details/:id', component: ClientDetailComponent},
-  { path: 'client/form/:id', component: ClientFormComponent },
-  { path: 'event', component: EventComponent }
+  { path: '', pathMatch: 'full', canActivate: [DefaultpageGuard], component: SigninComponent },
+  { path: 'user', component: UserListComponent, canActivate: [AdminGuard, LoggedinGuard] },
+  { path: 'user/form', component: UserFormComponent, canActivate: [AdminGuard, LoggedinGuard] },
+  { path: 'user/details/:id', component: UserDetailComponent, canActivate: [AdminGuard, LoggedinGuard] },
+  { path: 'user/form/:id', component: UserFormComponent, canActivate: [AdminGuard, LoggedinGuard] },
+  { path: 'client', component: ClientListComponent, canActivate: [LoggedinGuard] },
+  { path: 'client/form', component: ClientFormComponent, canActivate: [LoggedinGuard] },
+  { path: 'client/details/:id', component: ClientDetailComponent, canActivate: [LoggedinGuard] },
+  { path: 'client/form/:id', component: ClientFormComponent, canActivate: [LoggedinGuard] },
+  { path: 'event', component: EventComponent, canActivate: [LoggedinGuard] },
+  { path: 'signin', component: SigninComponent}
 ];
 
 export const routing = RouterModule.forRoot(APP_ROUTES);

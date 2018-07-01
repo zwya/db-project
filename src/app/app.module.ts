@@ -13,6 +13,10 @@ import { ClientListComponent } from './client/client-list/client-list.component'
 import { ClientFormComponent } from './client/client-form/client-form.component';
 import { ClientDetailComponent } from './client/client-detail/client-detail.component';
 import { EventComponent } from './event/event/event.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import { LoggedinGuard } from './guards/loggedin.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { DefaultpageGuard } from './guards/defaultpage.guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { EventComponent } from './event/event/event.component';
     ClientListComponent,
     ClientFormComponent,
     ClientDetailComponent,
-    EventComponent
+    EventComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,7 @@ import { EventComponent } from './event/event/event.component';
     HttpClientModule,
     routing
   ],
-  providers: [],
+  providers: [LoggedinGuard, AdminGuard, DefaultpageGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

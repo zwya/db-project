@@ -1,8 +1,39 @@
 var express = require('express');
 var router = express.Router();
 var paginate = require('express-paginate');
+var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
+
+router.post('/signin', function(req, res, next) {
+  User.findOne({username: req.body.username}, function(err, user) {
+    if(err){
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
+    if(!user) {
+      return res.status(401).json({
+        title: 'Login failed',
+        error: {message: 'Invalid login credentials'}
+      });
+    }
+    if (req.body.password != user.password) {
+      return res.status(401).json({
+        title: 'Login failed',
+        error: {message: 'Invalid login credentials'}
+      });
+    }
+    var token = jwt.sign({user: user}, 'secret', {expiresIn: 7200});
+    res.status(200).json({
+      message: 'Successfully logged in',
+      token: token,
+      userId: user._id,
+      admin: user.admin
+    });
+  })
+});
 
 router.get('/', function(req, res, next){
   User.find({}).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
