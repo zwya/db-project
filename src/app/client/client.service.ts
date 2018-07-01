@@ -36,13 +36,14 @@ export class ClientService {
 
     getClients(pageNumber: number, limit: number, query?: string): Observable<any> {
       if(pageNumber) {
+        const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
         if(query) {
-          return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + "&" + query, httpOptions).pipe(
+          return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + "&" + query + token, httpOptions).pipe(
             map(this.extractClientData),
             catchError(this.handleError)
           );
         }
-        return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit, httpOptions).pipe(
+        return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + token, httpOptions).pipe(
           map(this.extractClientData),
           catchError(this.handleError)
         );
@@ -50,7 +51,8 @@ export class ClientService {
     }
 
     getClient(id: string) {
-      return this.http.get(apiUrl + "/" + id, httpOptions).pipe(
+      const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.get(apiUrl + "/" + id + token, httpOptions).pipe(
         catchError(this.handleError)
       );
     }
@@ -67,19 +69,22 @@ export class ClientService {
 
     addClient(client: Client) {
       const body = JSON.stringify(client);
-      return this.http.post(apiUrl, body, httpOptions).pipe(
+      const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.post(apiUrl + token, body, httpOptions).pipe(
         catchError(this.handleError)
       );
     }
 
     deleteClient(id: string) {
-      return this.http.delete(apiUrl + "/" + id).pipe(
+      const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.delete(apiUrl + "/" + id + token).pipe(
         catchError(this.handleError)
       );
     }
 
     updateClient(client: Client) {
-      return this.http.patch(apiUrl + "/" + client.id, JSON.stringify(client) ,httpOptions).pipe(
+      const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.patch(apiUrl + "/" + client.id + token, JSON.stringify(client) ,httpOptions).pipe(
         catchError(this.handleError)
       );
     }

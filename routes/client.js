@@ -3,13 +3,26 @@ var router = express.Router();
 var paginate = require('express-paginate');
 var json2csv = require('json2csv').parse;
 var fs = require('fs');
+var jwt = require('jsonwebtoken');
 
 var Client = require('../models/client');
+
+router.use('/', function(req, res, next) {
+  jwt.verify(req.query.token, 'secret', function(err, decoded) {
+    if(err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
+  });
+});
 
 router.get('/', function(req, res, next){
   query = {}
   for(var key in req.query) {
-    if(key != "page" && key != "limit"){
+    if(key != "page" && key != "limit" && key != "token"){
       query[key] = req.query[key];
     }
   }

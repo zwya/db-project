@@ -35,6 +35,24 @@ router.post('/signin', function(req, res, next) {
   })
 });
 
+router.use('/', function(req, res, next) {
+  jwt.verify(req.query.token, 'secret', function(err, decoded) {
+    if(err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    if(!decoded.user.admin) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
+  });
+});
+
 router.get('/', function(req, res, next){
   User.find({}).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
     if(err){

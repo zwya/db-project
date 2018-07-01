@@ -32,7 +32,8 @@ export class EventService {
     }
 
     downloadFile(category, subcategory, core) {
-      return this.http.get(apiUrl + "?category=" + category + "&subcategory=" + subcategory + "&core=" + core).pipe(
+      const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
+      return this.http.get(apiUrl + "?category=" + category + "&subcategory=" + subcategory + "&core=" + core + token).pipe(
         catchError(this.handleError)
       );
     }

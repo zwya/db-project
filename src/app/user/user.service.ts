@@ -46,7 +46,8 @@ export class UserService {
 
   getUsers(pageNumber: number, limit: number): Observable<any> {
     if(pageNumber) {
-      return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit, httpOptions).pipe(
+      const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
+      return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + token, httpOptions).pipe(
         map(this.extractUserData),
         catchError(this.handleError)
       );
@@ -54,26 +55,30 @@ export class UserService {
   }
 
   getUser(id: string) {
-    return this.http.get(apiUrl + "/" + id, httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.get(apiUrl + "/" + id + token, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   addUser(user: User) {
     const body = JSON.stringify(user);
-    return this.http.post(apiUrl, body, httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.post(apiUrl + token, body, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteUser(id: string) {
-    return this.http.delete(apiUrl + "/" + id).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.delete(apiUrl + "/" + id + token).pipe(
       catchError(this.handleError)
     );
   }
 
   updateUser(user: User) {
-    return this.http.patch(apiUrl + "/" + user.id, JSON.stringify(user) ,httpOptions).pipe(
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.patch(apiUrl + "/" + user.id + token, JSON.stringify(user) ,httpOptions).pipe(
       catchError(this.handleError)
     );
   }
