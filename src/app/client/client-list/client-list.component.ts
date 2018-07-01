@@ -42,12 +42,22 @@ export class ClientListComponent implements OnInit {
   }
 
   getClients() {
-    this.clientService.getClients(this.pageNumber, this.limit).subscribe(
-      data => {
-        this.clients = data.clients;
-        this.hasMorePages = data.has_more;
-      }
-    );
+    if(this.searchQuery && this.searchQuery.length > 0) {
+      this.clientService.getClients(this.pageNumber, this.limit, this.searchField + "=" + this.searchQuery).subscribe(
+        data => {
+          this.clients = data.clients;
+          this.hasMorePages = data.has_more;
+        }
+      );
+    }
+    else {
+      this.clientService.getClients(this.pageNumber, this.limit).subscribe(
+        data => {
+          this.clients = data.clients;
+          this.hasMorePages = data.has_more;
+        }
+      );
+    }
   }
 
   setIndex(index){
@@ -74,6 +84,8 @@ export class ClientListComponent implements OnInit {
         );
       }
       else{
+        this.searchQuery = '';
+        this.searchField = 'Name';
         this.pageNumber = 1;
         this.getClients();
       }

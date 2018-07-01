@@ -71,43 +71,6 @@ router.get('/csv', function(req, res ,next) {
         file: csv
       });
   });
-  /*Client.find({category: req.query.category, subcategory: [req.query.subcategory]}, function(err, clientsres){
-    if(err){
-      return res.status(500).json({
-        title: 'An error occured',
-        error: err
-      });
-    }
-    clients = clientsres;
-    if(req.query.core){
-      Client.find({core: true}, function(err, clientsres) {
-        if(err){
-          return res.status(500).json({
-            title: 'An error occured',
-            error: err
-          });
-        }
-        clientsres.forEach(function(element) {
-          console.log(element);
-          if(clients.indexOf(element) == -1) {
-            clients.push(element);
-          }
-        });
-        const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core'];
-        var csv;
-        try{
-          csv = json2csv(clients, { fields });
-        }
-        catch(err){
-          console.log(err);
-        }
-        var path = Date.now() + '.csv';
-        res.status(200).json({
-          file: csv
-        });
-      });
-    }
-  });*/
 });
 
 router.get('/:id', function(req, res, next) {
