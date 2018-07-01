@@ -27,7 +27,8 @@ export class EventComponent implements OnInit {
     .subscribe(
       //data => FileSaver.saveAs(data.file, "output.csv")
       data => {
-        var blob = new Blob([data.file], {type: "text/csv"})
+        console.log(data);
+        var blob = new Blob([data.file], {type: "text/csv;charset=utf-8}")
         FileSaver.saveAs(blob, "output.csv")
       }
     );

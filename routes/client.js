@@ -59,6 +59,7 @@ router.get('/csv', function(req, res ,next) {
       });
     }
     clients = clientsres;
+    console.log(clients);
     if(req.query.core){
       Client.find({core: true}, function(err, clientsres) {
         if(err){

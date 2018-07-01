@@ -38,6 +38,7 @@
     "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",
     "serve-favicon": "^2.5.0",
+    "xlsx-to-json": "^0.3.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
