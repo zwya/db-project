@@ -30,7 +30,7 @@ export class ClientFormComponent implements OnInit {
       phone: new FormControl(''),
       fax: new FormControl(''),
       core: new FormControl(false),
-      subcategory: new FormControl('');
+      subcategory: new FormControl('')
     });
     this.route.params.subscribe(
       params => {
