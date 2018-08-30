@@ -7,6 +7,7 @@ var paginate = require('express-paginate');
 
 var userRoutes = require('./routes/user');
 var clientRoutes = require('./routes/client');
+var categoryRoutes = require('./routes/category');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/mean-angular6')
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/user', userRoutes);
 app.use('/api/client', clientRoutes);
+app.use('/api/category', categoryRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

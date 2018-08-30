@@ -1,32 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { Client } from '../client.model';
 import { Category } from '../category.model';
 import { ClientService } from '../client.service';
 import { CategoryService } from '../category.service';
 
+import * as FileSaver from 'file-saver';
+
 @Component({
-  selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+  selector: 'app-client-search',
+  templateUrl: './client-search.component.html',
+  styleUrls: ['./client-search.component.css']
 })
-export class ClientFormComponent implements OnInit {
+export class ClientSearchComponent implements OnInit {
   createForm: FormGroup;
-  editMode: boolean = false;
+  advanced: boolean;
   mainCategorySelect: boolean;
   subCategoryOneSelect: boolean;
   categoryValue: string;
-  client: Client;
   categories: String[];
   categoryValueRadio: String;
 
-  constructor(private clientService: ClientService, private router: Router, private route: ActivatedRoute, private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService, private clientService: ClientService,) { }
 
   ngOnInit() {
-    this.mainCategorySelect = true;
-    this.categories = [];
     this.createForm = new FormGroup({
       title: new FormControl(''),
       name: new FormControl(''),
@@ -41,51 +39,11 @@ export class ClientFormComponent implements OnInit {
       subcategory1: new FormControl(''),
       subcategory2: new FormControl('')
     });
-    this.route.params.subscribe(
-      params => {
-        if(params['id']) {
-          this.editMode = true;
-          this.clientService.getClient(params['id']).subscribe(
-            data => {
-              this.createForm.setValue({
-                title: data['title'],
-                name: data['name'],
-                jobtitle: data['job_title'],
-                organization: data['organization'],
-                email: data['email'],
-                category: data['category'],
-                mobile: data['mobile'],
-                fax: data['fax'],
-                phone: data['phone'],
-                core: data['core'],
-                subcategory1: data['subcategory'][0],
-                subcategory2: data['subcategory'][1]
-              });
-              this.client = new Client(data['title'], data['name'], data['job_title'], data['organization'], data['email'], data['category'], data['core'], data['subcategory'], data['mobile'], data['phone'], data['fax'], data['_id']);
-            }
-          );
-        }
-      }
-    );
+    this.advanced = false;
   }
 
-  onSubmit() {
-    if(!this.editMode) {
-      this.clientService.addClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
-        this.createForm.value.fax))
-      .subscribe(
-        data => console.log(data)
-      );
-      this.router.navigate(['client', {add: true}]);
-    }
-    else{
-      this.clientService.updateClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
-        this.createForm.value.fax, this.client.id))
-      .subscribe(
-        data => console.log(data)
-      );
-      this.router.navigate(['client', {edit: true}]);
-    }
+  toggleAdvancedContorls() {
+    this.advanced = !this.advanced;
   }
 
   selectMainCategory(type: string) {
@@ -157,5 +115,17 @@ export class ClientFormComponent implements OnInit {
       }
       this.categoryValueRadio = "";
     }
+  }
+
+  exportFile() {
+    this.clientService.downloadCSV(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
+      this.createForm.value.fax))
+    .subscribe(
+      //data => FileSaver.saveAs(data.file, "output.csv")
+      data => {
+        var blob = new Blob([data['file']], {type: "text/csv;charset=utf-8}"});
+        FileSaver.saveAs(blob, "output.csv");
+      }
+    );
   }
 }

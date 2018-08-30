@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Client } from '../client.model';
 import { ClientService } from '../client.service';
@@ -10,21 +10,38 @@ import { ClientService } from '../client.service';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  users: User[];
+  clients: any;
   private pageNumber: number;
   private limit: number;
   private hasMorePages: boolean;
   private hoverIndex: number;
   private searchField: string = 'name';
   private searchQuery: string;
+  private userAdded: boolean;
+  private userEdited: boolean;
 
-  constructor(private clientService: ClientService, private router: Router) { }
+  constructor(private clientService: ClientService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.pageNumber = 1;
     this.limit = 10;
     this.getClients();
     this.hoverIndex = null;
+    this.route.params.subscribe(
+      params => {
+        if(params['add']) {
+          this.userAdded = true;
+        }
+        else {
+          this.userAdded = false;
+        }
+        if(params['edit']){
+          this.userEdited = true;
+        }
+        else {
+          this.userEdited = false;
+        }
+      });
   }
 
   nextPage() {
@@ -45,16 +62,16 @@ export class ClientListComponent implements OnInit {
     if(this.searchQuery && this.searchQuery.length > 0) {
       this.clientService.getClients(this.pageNumber, this.limit, this.searchField + "=" + this.searchQuery).subscribe(
         data => {
-          this.clients = data.clients;
-          this.hasMorePages = data.has_more;
+          this.clients = data['clients'];
+          this.hasMorePages = data['has_more'];
         }
       );
     }
     else {
       this.clientService.getClients(this.pageNumber, this.limit).subscribe(
         data => {
-          this.clients = data.clients;
-          this.hasMorePages = data.has_more;
+          this.clients = data['clients'];
+          this.hasMorePages = data['has_more'];
         }
       );
     }
@@ -78,8 +95,8 @@ export class ClientListComponent implements OnInit {
         this.pageNumber = 1;
         this.clientService.getClients(this.pageNumber, this.limit, this.searchField + "=" + this.searchQuery).subscribe(
           data => {
-            this.clients = data.clients;
-            this.hasMorePages = data.has_more;
+            this.clients = data['clients'];
+            this.hasMorePages = data['has_more'];
           }
         );
       }

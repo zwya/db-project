@@ -1,15 +1,31 @@
-<div class="row">
-  <div class="offset-3 inputForm">
+<div class="row mt-4">
+  <div class="offset-3 inputForm wholeform">
     <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="inputUsername">Username</label>
-        <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" formControlName = "username">
+      <div class="text-center">
+        <img src="assets/images/logo.jpg" alt="Logo.jpg" width=150 height=75>
       </div>
-      <div class="form-group">
-        <label for="inputPassword">Password</label>
-        <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" formControlName = "password">
+      <div class="text-center mt-2 title">
+        <strong> Contacts Database </strong>
       </div>
-      <button type="submit" class="btn btn-primary"> Signin </button>
+      <div class="mt-4">
+        <div class="form-group row">
+          <label for="inputUsername" class="col-lg-3 labeltext mt-1">Username:</label>
+          <div class="col-lg-8 offset-lg-1">
+            <input type="text" class="form-control form-control-sm" id="inputUsername" formControlName = "username">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword" class="col-lg-3 labeltext mt-1">Password:</label>
+          <div class="col-lg-8 offset-lg-1">
+            <input type="password" class="form-control form-control-sm" id="inputPassword" formControlName = "password">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 offset-4">
+          <button type="submit" class="btn btn-primary btn-block"> Login </button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

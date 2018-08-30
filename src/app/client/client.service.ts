@@ -88,4 +88,12 @@ export class ClientService {
         catchError(this.handleError)
       );
     }
+
+    downloadCSV(client: Client) {
+      const body = JSON.stringify(client);
+      const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+      return this.http.post(apiUrl +'/csv' + token, body, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+    }
 }

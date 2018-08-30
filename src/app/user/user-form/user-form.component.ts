@@ -36,11 +36,11 @@ export class UserFormComponent implements OnInit {
           this.userService.getUser(params['id']).subscribe(
             data => {
               this.createForm.setValue({
-                username: data.username,
-                password: data.password,
-                admin: data.admin
+                username: data['username'],
+                password: data['password'],
+                admin: data['admin']
               });
-              this.user = new User(data.username, data.password, data.admin, data._id);
+              this.user = new User(data['username'], data['password'], data['admin'], data['_id']);
             }
           );
         }
@@ -52,14 +52,14 @@ export class UserFormComponent implements OnInit {
     if(!this.editMode) {
       this.userService.addUser(new User(this.createForm.value.username, this.createForm.value.password, this.createForm.value.admin))
       .subscribe(
-        data => console.log(data);
+        data => console.log(data)
       );
     }
     else
     {
       this.userService.updateUser(new User(this.createForm.value.username, this.createForm.value.password, this.createForm.value.admin, this.user.id))
       .subscribe(
-        data => console.log(data);
+        data => console.log(data)
       );
     }
     this.router.navigateByUrl('/user');

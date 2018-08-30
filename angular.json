@@ -26,15 +26,16 @@
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
               },
-              "src/styles.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.slim.min.js",
               "./node_modules/popper.js/dist/umd/popper.min.js",
               "./node_modules/bootstrap/js/dist/util.js",
               "./node_modules/bootstrap/js/dist/collapse.js",
-              "./node_modules/bootstrap/js/dist/dropdown.js"
+              "./node_modules/bootstrap/js/dist/dropdown.js",
+              "./node_modules/bootstrap/js/dist/modal.js"
             ]
           },
           "configurations": {

@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
 
-import { User } from '../user/user.model';
+import { Category } from './category.model';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
-const apiUrl = "/api/user/signin";
+const apiUrl = "/api/category";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
@@ -33,26 +33,23 @@ export class AuthService {
       return throwError('Something bad happened; please try again later.');
     }
 
-    signin(user: User) {
-      const body = JSON.stringify(user);
-      return this.http.post(apiUrl, body, httpOptions).pipe(
+  getCategories(type: string) {
+    const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
+    if(type) {
+      return this.http.get(apiUrl + "?type=" + type + token, httpOptions).pipe(
         catchError(this.handleError)
       );
     }
-
-    logout() {
-      localStorage.clear();
+    else {
+      console.log('Type is not defined');
     }
+  }
 
-    isLoggedIn() {
-      return localStorage.getItem('token') !== null;
-    }
-
-    isAdmin() {
-      if(localStorage.getItem('admin') && localStorage.getItem('admin') != 'false') {
-        return true;
-      }
-      return false;
-    }
-
+  addCategory(category: Category) {
+    const body = JSON.stringify(category);
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+    return this.http.post(apiUrl + token, body, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

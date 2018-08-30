@@ -6,6 +6,7 @@ var fs = require('fs');
 var jwt = require('jsonwebtoken');
 
 var Client = require('../models/client');
+var Category = require('../models/category');
 
 router.use('/', function(req, res, next) {
   jwt.verify(req.query.token, 'secret', function(err, decoded) {
@@ -49,9 +50,54 @@ router.get('/', function(req, res, next){
   });
 });
 
-router.get('/csv', function(req, res ,next) {
-  var clients = [];
-  Client.find().or([{category: req.query.category, subcategory: [req.query.subcategory]}, {core: true}]).exec(function(err, clients){
+router.post('/csv', function(req, res ,next) {
+  var query = {};
+  if(req.body.title && req.body.title != '') {
+    query.title = req.body.title;
+  }
+  if(req.body.name && req.body.name != '') {
+    query.name = req.body.name;
+  }
+  if(req.body.job_title && req.body.job_title != '') {
+    query.job_title = req.body.job_title;
+  }
+  if(req.body.organization && req.body.organization != '') {
+    query.organization = req.body.organization;
+  }
+  if(req.body.email && req.body.email != '') {
+    query.email = req.body.email;
+  }
+  if(req.body.category && req.body.category != '') {
+    query.category = req.category;
+  }
+  if(req.body.subcategory) {
+    var subcategories = [];
+    for(var i=0;i<req.body.subcategory.length;i++) {
+      if(req.body.subcategory[i] != ''){
+        subcategories.push(req.body.subcategory[i]);
+      }
+    }
+    if(subcategories.length > 0) {
+      if(subcategories.length == 1) {
+        query.subcategory = subcategories[0];
+      }
+      else {
+        query.subcategory = subcategories;
+      }
+    }
+  }
+  if(req.body.mobile && req.body.mobile != '') {
+    query.mobile = req.body.mobile;
+  }
+  if(req.body.phone && req.body.phone != '') {
+    query.phone = req.body.phone;
+  }
+  if(req.body.fax && req.body.fax != '') {
+    query.fax = req.body.fax;
+  }
+  query.core = req.body.core;
+  console.log(query);
+  Client.find().or([query, {core: true}]).exec(function(err, clients){
       if(err){
         return res.status(500).json({
           title: 'An error occured',
@@ -99,6 +145,69 @@ router.post('/', function(req, res, next){
     fax: req.body.fax,
     core: req.body.core
   });
+  if(req.body.category != '') {
+    Category.find({name: req.body.category, type: 'main'}, function(err, category){
+      if(err) {
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      if(category.length == 0) {
+        var toBeSaved = new Category({name: req.body.category, type: 'main'});
+        toBeSaved.save(function(err, category) {
+          if(err){
+            return res.status(500).json({
+              title: 'An error occured',
+              error: err
+            });
+          }
+        });
+      }
+    });
+  }
+  if(req.body.subcategory[0] != '') {
+    Category.find({name: req.body.subcategory[0], type: 'sub1'}, function(err, category){
+      if(err) {
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      if(category.length == 0) {
+        var toBeSaved = new Category({name: req.body.subcategory[0], type: 'sub1'});
+        toBeSaved.save(function(err, category) {
+          if(err){
+            return res.status(500).json({
+              title: 'An error occured',
+              error: err
+            });
+          }
+        });
+      }
+    });
+  }
+  if(req.body.subcategory[1] != '') {
+    Category.find({name: req.body.subcategory[1], type: 'sub2'}, function(err, category){
+      if(err) {
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      if(category.length == 0) {
+        var toBeSaved = new Category({name: req.body.subcategory[1], type: 'sub2'});
+        toBeSaved.save(function(err, category) {
+          if(err){
+            return res.status(500).json({
+              title: 'An error occured',
+              error: err
+            });
+          }
+        });
+      }
+    });
+  }
   client.save(function(err, client){
     if(err){
       return res.status(500).json({
@@ -137,7 +246,71 @@ router.patch('/:id', function(req, res, next) {
     client.mobile = req.body.mobile;
     client.phone = req.body.phone;
     client.fax = req.body.fax;
+    console.log(req.body.core);
     client.core = req.body.core;
+    if(req.body.category != '') {
+      Category.find({name: req.body.category, type: 'main'}, function(err, category){
+        if(err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        if(category.length == 0) {
+          var toBeSaved = new Category({name: req.body.category, type: 'main'});
+          toBeSaved.save(function(err, category) {
+            if(err){
+              return res.status(500).json({
+                title: 'An error occured',
+                error: err
+              });
+            }
+          });
+        }
+      });
+    }
+    if(req.body.subcategory[0] != '') {
+      Category.find({name: req.body.subcategory[0], type: 'sub1'}, function(err, category){
+        if(err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        if(category.length == 0) {
+          var toBeSaved = new Category({name: req.body.subcategory[0], type: 'sub1'});
+          toBeSaved.save(function(err, category) {
+            if(err){
+              return res.status(500).json({
+                title: 'An error occured',
+                error: err
+              });
+            }
+          });
+        }
+      });
+    }
+    if(req.body.subcategory[1] != '') {
+      Category.find({name: req.body.subcategory[1], type: 'sub2'}, function(err, category){
+        if(err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        if(category.length == 0) {
+          var toBeSaved = new Category({name: req.body.subcategory[1], type: 'sub2'});
+          toBeSaved.save(function(err, category) {
+            if(err){
+              return res.status(500).json({
+                title: 'An error occured',
+                error: err
+              });
+            }
+          });
+        }
+      });
+    }
     client.save(function(err, client) {
       if(err){
         return res.status(500).json({

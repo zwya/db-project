@@ -12,11 +12,11 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { ClientListComponent } from './client/client-list/client-list.component';
 import { ClientFormComponent } from './client/client-form/client-form.component';
 import { ClientDetailComponent } from './client/client-detail/client-detail.component';
-import { EventComponent } from './event/event/event.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { LoggedinGuard } from './guards/loggedin.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { DefaultpageGuard } from './guards/defaultpage.guard';
+import { ClientSearchComponent } from './client/client-search/client-search.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +28,8 @@ import { DefaultpageGuard } from './guards/defaultpage.guard';
     ClientListComponent,
     ClientFormComponent,
     ClientDetailComponent,
-    EventComponent,
-    SigninComponent
+    SigninComponent,
+    ClientSearchComponent
   ],
   imports: [
     BrowserModule,
