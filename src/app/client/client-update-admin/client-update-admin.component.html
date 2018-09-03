@@ -1,0 +1,113 @@
+<app-navbar> </app-navbar>
+<nav class="navbar navbar-expand-lg">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto nav-fill w-100">
+      <li class="nav-item">
+        <a class="nav-link white-text" (click)="getNewRequests()"> New </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link white-text" (click)="getApprovedRequests()"> Approved </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link white-text" (click)="getRejectedRequests()"> Rejected </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link white-text" (click)="getAllRequests()"> All History </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row" *ngIf="!clientsQueried && !requestSelected">
+    <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Organization</th>
+          <th scope="col">Subcategory2</th>
+          <th scope="col">Field To Update</th>
+          <th scope="col">Old Value</th>
+          <th scope="col">New Value</th>
+          <th scope="col">Requested By</th>
+          <th scope="col">Request Date</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of newRequests;let i = index" (mouseenter)="setIndex(hoverIndex = i)" (mouseleave)="clearIndex()" [ngClass]="{'selected-element': hoverIndex == i}" (click)="goToDetails()">
+          <th scope="col">{{ request.client.organization }}</th>
+          <th scope="col">{{ request.client.subcategory[1] }}</th>
+          <th scope="col">{{ request.fieldtoupdate }}</th>
+          <th scope="col">{{ request.oldvalue }}</th>
+          <th scope="col">{{ request.newvalue }}</th>
+          <th scope="col">{{ request.requestedby.username }}</th>
+          <th scope="col">{{ request.requestdate }}</th>
+          <th scope="col">{{ request.requeststatus }}</th>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-primary offset-4" [disabled]="pageNumber == 1" (click)="previousPage()"> << </button>
+    <button type="button" class="btn btn-primary offset-1" [disabled]="!hasMorePages" (click)="nextPage()"> >> </button>
+  </div>
+  </div>
+
+  <div class="row" *ngIf="requestSelected">
+    <div class="col">
+      <h3> Update Request: </h3>
+      <div class="p-3">
+        <form [formGroup]="createForm">
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputTitle">Requested By: </label>
+            </div>
+            <div class="form-group col">
+              <label for="inputJobTitle">Request Date: </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputName">Name</label>
+              <input type="text" class="form-control" id="inputName" formControlName="name">
+            </div>
+            <div class="form-group col">
+              <label for="inputFieldToUpdate">Field To Update</label>
+              <input type="text" class="form-control" id="inputFieldToUpdate" formControlName="fieldtoupdate">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputOrganization">Organization</label>
+              <input type="text" class="form-control" id="inputOrganization" formControlName="organization">
+            </div>
+            <div class="form-group col">
+              <label for="inputOldValue">Old Value</label>
+              <input type="text" class="form-control" id="inputOldValue" formControlName="oldvalue">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputSubCategory">Sub Category 2</label>
+              <input type="text" class="form-control" id="inputSubCategory" formControlName="subcategory2">
+            </div>
+            <div class="form-group col">
+              <label for="inputNewValue">New Value</label>
+              <input type="text" class="form-control" id="inputNewValue" formControlName="newvalue">
+            </div>
+          </div>
+          <div class="row">
+            <div class="offset-4">
+              <button type="button" class="btn btn-primary" (click)="back()"> Back </button>
+            </div>
+            <div class="offset-1">
+              <button type="button" class="btn btn-primary" (click) = "approve()"> Approve </button>
+            </div>
+            <div class="offset-1">
+              <button type="button" class="btn btn-primary" (click) = "reject()"> Reject </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

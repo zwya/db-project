@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Client } from '../client.model';
-import { Category } from '../category.model';
 import { ClientService } from '../client.service';
 import { CategoryService } from '../category.service';
 

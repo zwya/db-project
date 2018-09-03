@@ -50,6 +50,20 @@ export class ClientService {
       }
     }
 
+    getClientsMultipleQueries(pageNumber: number, limit: number, query: any): Observable<any> {
+      if(pageNumber) {
+        const token = localStorage.getItem('token') ? '&token=' + localStorage.getItem('token') : '';
+        var querystring = '';
+        for(var key in query) {
+          querystring += "&" + key + "=" + query[key];
+        }
+        return this.http.get(apiUrl + "?page=" + pageNumber + "&limit=" + limit + querystring + token, httpOptions).pipe(
+          map(this.extractClientData),
+          catchError(this.handleError)
+        );
+      }
+    }
+
     getClient(id: string) {
       const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
       return this.http.get(apiUrl + "/" + id + token, httpOptions).pipe(

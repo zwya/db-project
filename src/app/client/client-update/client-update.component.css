@@ -1,0 +1,14 @@
+.categorydivs {
+  overflow:hidden;
+}
+
+.selected-element {
+  border-style: solid;
+  border-color: red;
+  border-radius: 25px;
+  border-width: 10px;
+  border-right-style: none;
+  border-top-style: none;
+  border-bottom-style: none;
+  background-color: #f2cbcb;
+}

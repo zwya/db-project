@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Client } from '../client.model';
-import { Category } from '../category.model';
 import { ClientService } from '../client.service';
 import { CategoryService } from '../category.service';
 

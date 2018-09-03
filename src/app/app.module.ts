@@ -17,6 +17,8 @@ import { LoggedinGuard } from './guards/loggedin.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { DefaultpageGuard } from './guards/defaultpage.guard';
 import { ClientSearchComponent } from './client/client-search/client-search.component';
+import { ClientUpdateComponent } from './client/client-update/client-update.component';
+import { ClientUpdateAdminComponent } from './client/client-update-admin/client-update-admin.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { ClientSearchComponent } from './client/client-search/client-search.comp
     ClientFormComponent,
     ClientDetailComponent,
     SigninComponent,
-    ClientSearchComponent
+    ClientSearchComponent,
+    ClientUpdateComponent,
+    ClientUpdateAdminComponent
   ],
   imports: [
     BrowserModule,

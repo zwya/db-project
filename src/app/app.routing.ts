@@ -11,6 +11,8 @@ import { SigninComponent } from "./auth/signin/signin.component";
 import { LoggedinGuard } from './guards/loggedin.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { DefaultpageGuard } from './guards/defaultpage.guard';
+import { ClientUpdateComponent } from './client/client-update/client-update.component';
+import { ClientUpdateAdminComponent } from './client/client-update-admin/client-update-admin.component';
 
 const APP_ROUTES: Routes = [
   { path: '', pathMatch: 'full', canActivate: [DefaultpageGuard], component: SigninComponent },
@@ -23,6 +25,8 @@ const APP_ROUTES: Routes = [
   { path: 'client/details/:id', component: ClientDetailComponent, canActivate: [LoggedinGuard] },
   { path: 'client/form/:id', component: ClientFormComponent, canActivate: [LoggedinGuard] },
   { path: 'search', component: ClientSearchComponent, canActivate: [LoggedinGuard]},
+  { path: 'update', component: ClientUpdateComponent, canActivate: [LoggedinGuard]},
+  { path: 'updateadmin', component: ClientUpdateAdminComponent, canActivate: [AdminGuard, LoggedinGuard]},
   { path: 'signin', component: SigninComponent}
 ];
 

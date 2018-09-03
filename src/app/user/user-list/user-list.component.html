@@ -1,23 +1,26 @@
-<div class="row">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Username</th>
-        <th scope="col">Password</th>
-        <th scope="col">Admin</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index"  (mouseenter)="setIndex(hoverIndex = i)" (mouseleave)="clearIndex()" [ngClass]="{'selected-element': hoverIndex == i}" (click)="goToDetails()">
-        <th scope="col">{{ i + 1 }}</th>
-        <th scope="col">{{ user.username }}</th>
-        <th scope="col">{{ user.password }}</th>
-        <th scope="col">{{ user.admin }}</th>
-      </tr>
-    </tbody>
-  </table>
-  <button type="button" class="btn btn-primary offset-4" [disabled]="pageNumber == 1" (click)="previousPage()"> << </button>
-  <button type="button" class="btn offset-1" [routerLink]="['form']"> Add User </button>
-  <button type="button" class="btn btn-primary offset-1" [disabled]="!hasMorePages" (click)="nextPage()"> >> </button>
+<app-navbar> </app-navbar>
+<div class="container-fluid">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Username</th>
+          <th scope="col">Password</th>
+          <th scope="col">Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index"  (mouseenter)="setIndex(hoverIndex = i)" (mouseleave)="clearIndex()" [ngClass]="{'selected-element': hoverIndex == i}" (click)="goToDetails()">
+          <th scope="col">{{ i + 1 }}</th>
+          <th scope="col">{{ user.username }}</th>
+          <th scope="col">{{ user.password }}</th>
+          <th scope="col">{{ user.admin }}</th>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-primary offset-4" [disabled]="pageNumber == 1" (click)="previousPage()"> << </button>
+    <button type="button" class="btn offset-1" [routerLink]="['form']"> Add User </button>
+    <button type="button" class="btn btn-primary offset-1" [disabled]="!hasMorePages" (click)="nextPage()"> >> </button>
+  </div>
 </div>

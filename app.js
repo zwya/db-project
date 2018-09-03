@@ -8,6 +8,7 @@ var paginate = require('express-paginate');
 var userRoutes = require('./routes/user');
 var clientRoutes = require('./routes/client');
 var categoryRoutes = require('./routes/category');
+var UpdateRequestRoutes = require('./routes/updaterequest');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/mean-angular6')
@@ -25,6 +26,7 @@ app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/user', userRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/category', categoryRoutes);
+app.use('/api/updatereq', UpdateRequestRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,6 +37,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.log(err.message);
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page

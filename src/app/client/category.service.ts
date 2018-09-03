@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { catchError, tap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-import { Category } from './category.model';
-
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
@@ -43,13 +41,5 @@ export class CategoryService {
     else {
       console.log('Type is not defined');
     }
-  }
-
-  addCategory(category: Category) {
-    const body = JSON.stringify(category);
-    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    return this.http.post(apiUrl + token, body, httpOptions).pipe(
-      catchError(this.handleError)
-    );
   }
 }

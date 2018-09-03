@@ -27,6 +27,9 @@ router.get('/', function(req, res, next){
       query[key] = req.query[key];
     }
   }
+  if(query['subcategory'] && query['subcategory'].length == 1) {
+    query['subcategory'] = query['subcategory'][0];
+  }
   Client.find(query).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
     if(err){
       return res.status(500).json({
@@ -34,7 +37,7 @@ router.get('/', function(req, res, next){
         error: err
       });
     }
-    Client.count({}, function(err, count) {
+    Client.count(query, function(err, count) {
       if(err){
         return res.status(500).json({
           title: 'An error occured',
@@ -96,7 +99,6 @@ router.post('/csv', function(req, res ,next) {
     query.fax = req.body.fax;
   }
   query.core = req.body.core;
-  console.log(query);
   Client.find().or([query, {core: true}]).exec(function(err, clients){
       if(err){
         return res.status(500).json({
@@ -128,6 +130,24 @@ router.get('/:id', function(req, res, next) {
       });
     }
       res.status(201).json(client);
+  });
+});
+
+router.use('/', function(req, res, next) {
+  jwt.verify(req.query.token, 'secret', function(err, decoded) {
+    if(err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    if(!decoded.user.admin) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
   });
 });
 
