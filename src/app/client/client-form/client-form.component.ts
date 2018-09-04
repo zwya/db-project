@@ -73,17 +73,21 @@ export class ClientFormComponent implements OnInit {
       this.clientService.addClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
         this.createForm.value.fax))
       .subscribe(
-        data => console.log(data)
-      );
-      this.router.navigate(['client', {add: true}]);
+        data => {
+          console.log(data);
+          this.router.navigate(['client', {add: true}]);
+        }
+      );      
     }
     else{
       this.clientService.updateClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
         this.createForm.value.fax, this.client.id))
       .subscribe(
-        data => console.log(data)
+        data => {
+          console.log(data);
+          this.router.navigate(['client', {edit: true}]);
+        }
       );
-      this.router.navigate(['client', {edit: true}]);
     }
   }
 

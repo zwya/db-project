@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var paginate = require('express-paginate');
 
 var UpdateRequest = require('../models/updaterequest');
+var Client = require('../models/client');
 
 router.use('/', function(req, res, next) {
   jwt.verify(req.query.token, 'secret', function(err, decoded) {
@@ -97,7 +98,17 @@ router.get('/approve/:id', function(req, res, next) {
     }
       request.requeststatus = 'approved';
       request.save();
-      res.status(201).json({'status': 'request approved'});
+      Client.findById(request.client, function(err, client) {
+        if(err){
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        client[request.fieldtoupdate] = request['newvalue'];
+        client.save();
+        res.status(201).json({'status': 'request approved'});
+      });
   });
 });
 

@@ -11,6 +11,10 @@ var categoryRoutes = require('./routes/category');
 var UpdateRequestRoutes = require('./routes/updaterequest');
 
 var mongoose = require('mongoose');
+/*mongoose.connect('mongodb://zwya:o6o6ed@ds243502.mlab.com:43502/eces')
+  .then(() =>  console.log('connection succesful'))
+  .catch((err) => console.error(err));*/
+//mongodb://<dbuser>:<dbpassword>@ds243502.mlab.com:43502/eces
 mongoose.connect('mongodb://localhost/mean-angular6')
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));

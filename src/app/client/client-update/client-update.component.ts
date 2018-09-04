@@ -145,8 +145,13 @@ export class ClientUpdateComponent implements OnInit {
       delete query['subcategory2'];
     }
     if(subcategory.length > 0) {
-      query['subcategory'] = subcategory;
+      query['subcategory'] = JSON.stringify(subcategory);
     }
+    if(query['jobtitle']) {
+      query['job_title'] = query['jobtitle'];
+      delete query['jobtitle'];
+    }
+
     if(!allEmpty) {
       this.clientService.getClientsMultipleQueries(this.pageNumber, this.limit, query).subscribe(data => {
         this.clients = data['clients'];
@@ -273,6 +278,8 @@ export class ClientUpdateComponent implements OnInit {
       this.updateRequestService.addRequest(this.clients[this.hoverIndex]['id'], fieldsToUpdate, values).subscribe(
          data => {
            console.log(data);
+           this.clientSelected = false;
+           this.clientsQueried = false;
          }
        );
     }

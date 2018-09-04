@@ -20,6 +20,8 @@ export class ClientUpdateAdminComponent implements OnInit {
   private selectedRequest: any;
   private hasMorePages: boolean;
   private currentRequestStatus;
+  private pageNumber: number;
+  private limit: number;
 
   constructor(private updateRequestService: UpdaterequestService) { }
 

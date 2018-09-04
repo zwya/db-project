@@ -30,6 +30,9 @@ router.get('/', function(req, res, next){
   if(query['subcategory'] && query['subcategory'].length == 1) {
     query['subcategory'] = query['subcategory'][0];
   }
+  else if(typeof(query['subcategory']) == "string") {
+    query['subcategory'] = JSON.parse(query['subcategory']);
+  }
   Client.find(query).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
     if(err){
       return res.status(500).json({
