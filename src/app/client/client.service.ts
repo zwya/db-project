@@ -75,7 +75,7 @@ export class ClientService {
       var body = res;
       let frontEndClient: Client[] = [];
       for(let client of body['data']) {
-        frontEndClient.push(new Client(client.title, client.name, client.job_title, client.organization, client.email, client.category, client.core, client.subcategory, client.mobile, client.phone, client.fax, client._id));
+        frontEndClient.push(new Client(client.title, client.name, client.job_title, client.organization, client.email, client.category, client.core, client.address, client.subcategory, client.mobile, client.phone, client.fax, client._id));
       }
       this.clients = frontEndClient;
       return {clients: frontEndClient, has_more: body['has_more']} || { };

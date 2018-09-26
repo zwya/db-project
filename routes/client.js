@@ -33,6 +33,11 @@ router.get('/', function(req, res, next){
   else if(typeof(query['subcategory']) == "string") {
     query['subcategory'] = JSON.parse(query['subcategory']);
   }
+  if(query['name']) {
+    query['$text'] = {}
+    query['$text']['$search'] = "\"" + query['name'] + "\"";
+    delete query['name'];
+  }
   Client.find(query).limit(req.query.limit).skip(req.skip).exec(function(err, results) {
     if(err){
       return res.status(500).json({
@@ -62,7 +67,8 @@ router.post('/csv', function(req, res ,next) {
     query.title = req.body.title;
   }
   if(req.body.name && req.body.name != '') {
-    query.name = req.body.name;
+    query['$text'] = {}
+    query['$text']['$search'] = "\"" + req.body.name + "\"";
   }
   if(req.body.job_title && req.body.job_title != '') {
     query.job_title = req.body.job_title;
@@ -102,14 +108,15 @@ router.post('/csv', function(req, res ,next) {
     query.fax = req.body.fax;
   }
   query.core = req.body.core;
-  Client.find().or([query, {core: true}]).exec(function(err, clients){
+  majorQuery = { $or: [query, {core: true}] };
+  Client.find(majorQuery).exec(function(err, clients){
       if(err){
         return res.status(500).json({
           title: 'An error occured',
           error: err
         });
       }
-      const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core'];
+      const fields = ['title', 'name', 'job_title', 'organization', 'email', 'category', 'subcategory', 'mobile', 'phone', 'fax', 'core', 'address'];
       var csv;
       try{
         csv = json2csv(clients, { fields });
@@ -166,7 +173,8 @@ router.post('/', function(req, res, next){
     mobile: req.body.mobile,
     phone: req.body.phone,
     fax: req.body.fax,
-    core: req.body.core
+    core: req.body.core,
+    address: req.body.address
   });
   if(req.body.category != '') {
     Category.find({name: req.body.category, type: 'main'}, function(err, category){
@@ -269,7 +277,7 @@ router.patch('/:id', function(req, res, next) {
     client.mobile = req.body.mobile;
     client.phone = req.body.phone;
     client.fax = req.body.fax;
-    console.log(req.body.core);
+    client.address = req.body.address
     client.core = req.body.core;
     if(req.body.category != '') {
       Category.find({name: req.body.category, type: 'main'}, function(err, category){

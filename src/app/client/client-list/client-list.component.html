@@ -27,6 +27,7 @@
           <th scope="col">Subcategroy 1</th>
           <th scope="col">Subcategroy 2</th>
           <th scope="col">Core</th>
+          <th scope="col">Address</th>
         </tr>
       </thead>
       <tbody>
@@ -45,6 +46,7 @@
           <th scope="col">{{ client.subcategory[1] }}</th>
           <th scope="col" *ngIf="client.core">yes</th>
           <th scope="col" *ngIf="!client.core">no</th>
+          <th scope="col">{{ client.address }}</th>
         </tr>
       </tbody>
     </table>

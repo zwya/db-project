@@ -19,7 +19,7 @@ export class ClientDetailComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.clientService.getClient(params['id']).subscribe(
-          data => this.client = new Client(data['title'], data['name'], data['job_title'], data['organization'], data['email'], data['category'], data['core'], data['subcategory'], data['mobile'], data['phone'], data['fax'], data['_id'])
+          data => this.client = new Client(data['title'], data['name'], data['job_title'], data['organization'], data['email'], data['category'], data['core'], data['address'], data['subcategory'], data['mobile'], data['phone'], data['fax'], data['_id'])
         );
       }
     );

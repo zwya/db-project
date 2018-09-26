@@ -38,7 +38,8 @@ export class ClientFormComponent implements OnInit {
       fax: new FormControl(''),
       core: new FormControl(false),
       subcategory1: new FormControl(''),
-      subcategory2: new FormControl('')
+      subcategory2: new FormControl(''),
+      address: new FormControl('')
     });
     this.route.params.subscribe(
       params => {
@@ -58,9 +59,10 @@ export class ClientFormComponent implements OnInit {
                 phone: data['phone'],
                 core: data['core'],
                 subcategory1: data['subcategory'][0],
-                subcategory2: data['subcategory'][1]
+                subcategory2: data['subcategory'][1],
+                address: data['address']
               });
-              this.client = new Client(data['title'], data['name'], data['job_title'], data['organization'], data['email'], data['category'], data['core'], data['subcategory'], data['mobile'], data['phone'], data['fax'], data['_id']);
+              this.client = new Client(data['title'], data['name'], data['job_title'], data['organization'], data['email'], data['category'], data['core'], data['address'],data['subcategory'], data['mobile'], data['phone'], data['fax'], data['_id']);
             }
           );
         }
@@ -70,17 +72,17 @@ export class ClientFormComponent implements OnInit {
 
   onSubmit() {
     if(!this.editMode) {
-      this.clientService.addClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
+      this.clientService.addClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, this.createForm.value.address, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
         this.createForm.value.fax))
       .subscribe(
         data => {
           console.log(data);
           this.router.navigate(['client', {add: true}]);
         }
-      );      
+      );
     }
     else{
-      this.clientService.updateClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
+      this.clientService.updateClient(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, this.createForm.value.address, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
         this.createForm.value.fax, this.client.id))
       .subscribe(
         data => {

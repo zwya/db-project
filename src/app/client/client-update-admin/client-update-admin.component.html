@@ -59,10 +59,10 @@
         <form [formGroup]="createForm">
           <div class="row">
             <div class="form-group col">
-              <label for="inputTitle">Requested By: </label>
+              <label for="inputTitle">Requested By: {{ this.selectedRequest.requestedby.username }}</label>
             </div>
             <div class="form-group col">
-              <label for="inputJobTitle">Request Date: </label>
+              <label for="inputJobTitle">Request Date: {{ this.selectedRequest.requestdate }} </label>
             </div>
           </div>
           <div class="row">
@@ -100,10 +100,10 @@
               <button type="button" class="btn btn-primary" (click)="back()"> Back </button>
             </div>
             <div class="offset-1">
-              <button type="button" class="btn btn-primary" (click) = "approve()"> Approve </button>
+              <button type="button" class="btn btn-primary" (click) = "approve()" [disabled]="selectedRequest.requeststatus == 'approved' || selectedRequest.requeststatus == 'rejected'"> Approve </button>
             </div>
             <div class="offset-1">
-              <button type="button" class="btn btn-primary" (click) = "reject()"> Reject </button>
+              <button type="button" class="btn btn-primary" (click) = "reject()" [disabled]="selectedRequest.requeststatus == 'approved' || selectedRequest.requeststatus == 'rejected'"> Reject </button>
             </div>
           </div>
         </form>

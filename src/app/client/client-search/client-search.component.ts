@@ -17,9 +17,17 @@ export class ClientSearchComponent implements OnInit {
   advanced: boolean;
   mainCategorySelect: boolean;
   subCategoryOneSelect: boolean;
+  clientsQueried: boolean;
+  hasMorePages: boolean;
   categoryValue: string;
   categories: String[];
   categoryValueRadio: String;
+  clients: any;
+  query: any;
+  pageNumber: number;
+  limit: number;
+  hoverIndex: number;
+
 
   constructor(private categoryService: CategoryService, private clientService: ClientService,) { }
 
@@ -39,6 +47,9 @@ export class ClientSearchComponent implements OnInit {
       subcategory2: new FormControl('')
     });
     this.advanced = false;
+    this.clientsQueried = false;
+    this.limit = 10;
+    this.pageNumber = 1;
   }
 
   toggleAdvancedContorls() {
@@ -117,7 +128,7 @@ export class ClientSearchComponent implements OnInit {
   }
 
   exportFile() {
-    this.clientService.downloadCSV(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, [this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
+    this.clientService.downloadCSV(new Client(this.createForm.value.title, this.createForm.value.name, this.createForm.value.jobtitle, this.createForm.value.organization, this.createForm.value.email, this.createForm.value.category, this.createForm.value.core, '',[this.createForm.value.subcategory1, this.createForm.value.subcategory2], this.createForm.value.mobile, this.createForm.value.phone,
       this.createForm.value.fax))
     .subscribe(
       //data => FileSaver.saveAs(data.file, "output.csv")
@@ -127,4 +138,69 @@ export class ClientSearchComponent implements OnInit {
       }
     );
   }
+
+  queryClients() {
+    var allEmpty = true;
+    var query = {};
+    for(var key in this.createForm.value) {
+      if(this.createForm.value[key] != '') {
+        query[key] = this.createForm.value[key];
+        allEmpty = false;
+      }
+    }
+    var subcategory = [];
+    if(query['subcategory1']) {
+      subcategory.push(query['subcategory1']);
+      delete query['subcategory1'];
+    }
+    if(query['subcategory2']) {
+      subcategory.push(query['subcategory2']);
+      delete query['subcategory2'];
+    }
+    if(subcategory.length > 0) {
+      query['subcategory'] = JSON.stringify(subcategory);
+    }
+    if(query['jobtitle']) {
+      query['job_title'] = query['jobtitle'];
+      delete query['jobtitle'];
+    }
+
+    if(!allEmpty) {
+      this.clientService.getClientsMultipleQueries(this.pageNumber, this.limit, query).subscribe(data => {
+        this.clients = data['clients'];
+        this.query = query;
+        this.clientsQueried = true;
+        this.hasMorePages = data['has_more'];
+      });
+    }
+  }
+
+  nextPage() {
+    if(this.hasMorePages) {
+      this.pageNumber++;
+      this.clientService.getClientsMultipleQueries(this.pageNumber, this.limit, this.query).subscribe(data => {
+        this.clients = data['clients'];
+        this.hasMorePages = data['has_more'];
+      });
+    }
+  }
+
+  previousPage() {
+    if(this.pageNumber > 1) {
+      this.pageNumber--;
+      this.clientService.getClientsMultipleQueries(this.pageNumber, this.limit, this.query).subscribe(data => {
+        this.clients = data['clients'];
+        this.hasMorePages = data['has_more'];
+      });
+    }
+  }
+
+  setIndex(index){
+    this.hoverIndex = index;
+  }
+
+  clearIndex() {
+    this.hoverIndex = null;
+  }
+
 }

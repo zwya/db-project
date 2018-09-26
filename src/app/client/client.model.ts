@@ -11,8 +11,9 @@ export class Client {
   fax?: string;
   core: boolean;
   id?: string;
+  address: string;
 
-  constructor(title: string, name: string, job_title: string, organization: string, email: string, category: string, core: boolean, subcategory?: string[], mobile?: string, phone?: string, fax?: string, id?: string) {
+  constructor(title: string, name: string, job_title: string, organization: string, email: string, category: string, core: boolean, address: string, subcategory?: string[], mobile?: string, phone?: string, fax?: string, id?: string) {
     this.title = title;
     this.name = name;
     this.job_title = job_title;
@@ -25,5 +26,6 @@ export class Client {
     this.fax =fax;
     this.core = core;
     this.id = id;
+    this.address = address
   }
 }
